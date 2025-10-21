@@ -1,35 +1,37 @@
-// Funny Calculator JavaScript - Always returns HELLO WORLD!
-
 let currentDisplay = '0';
+let fullExpression = '';
 let firstOperand = null;
 let operator = null;
 let waitingForSecondOperand = false;
 
-// Update display
 function updateDisplay() {
     const display = document.getElementById('display');
-    display.textContent = currentDisplay;
+    display.textContent = fullExpression || currentDisplay;
 }
 
-// Append number to display
 function appendNumber(number) {
     if (waitingForSecondOperand) {
         currentDisplay = number;
+        fullExpression += number;
         waitingForSecondOperand = false;
     } else {
-        currentDisplay = currentDisplay === '0' ? number : currentDisplay + number;
+        if (currentDisplay === '0' && number !== '.') {
+            currentDisplay = number;
+            fullExpression = number;
+        } else {
+            currentDisplay = currentDisplay + number;
+            fullExpression += number;
+        }
     }
     updateDisplay();
 }
 
-// Append operator
 function appendOperator(nextOperator) {
     const inputValue = parseFloat(currentDisplay);
 
     if (firstOperand === null) {
         firstOperand = inputValue;
     } else if (operator) {
-        // Store but don't calculate yet
         const result = performCalculation(firstOperand, inputValue, operator);
         currentDisplay = String(result);
         firstOperand = result;
@@ -37,12 +39,12 @@ function appendOperator(nextOperator) {
 
     waitingForSecondOperand = true;
     operator = nextOperator;
+    
+    fullExpression += ' ' + nextOperator + ' ';
     updateDisplay();
 }
 
-// Perform calculation (but we'll override this later!)
 function performCalculation(first, second, operator) {
-    // This looks like it's doing math, but it's a trap!
     switch (operator) {
         case '+':
             return first + second;
@@ -57,9 +59,9 @@ function performCalculation(first, second, operator) {
     }
 }
 
-// Clear display
 function clearDisplay() {
     currentDisplay = '0';
+    fullExpression = '';
     firstOperand = null;
     operator = null;
     waitingForSecondOperand = false;
@@ -71,60 +73,40 @@ function clearDisplay() {
     updateDisplay();
 }
 
-// The main calculation function - THE TRICK IS HERE!
 function calculate() {
     const inputValue = parseFloat(currentDisplay);
     const display = document.getElementById('display');
 
     if (firstOperand === null || operator === null) {
-        // If they just press equals without an operation
         showHelloWorld();
         return;
     }
 
-    // Pretend to calculate
-    setTimeout(() => {
-        // Add shake animation
-        display.classList.add('shake');
-        
-        // After shake, show HELLO WORLD
-        setTimeout(() => {
-            showHelloWorld();
-        }, 500);
-    }, 100);
+    showHelloWorld();
 }
 
-// Show the surprise result!
 function showHelloWorld() {
     const display = document.getElementById('display');
+    fullExpression = 'HELLO WORLD';
     currentDisplay = 'HELLO WORLD';
     
-    // Add rainbow animation
     display.classList.add('rainbow-text');
     
-    // Reset calculator state
     firstOperand = null;
     operator = null;
     waitingForSecondOperand = false;
     
     updateDisplay();
     
-    // Play a fun alert after a moment
     setTimeout(() => {
         playConfetti();
     }, 500);
 }
 
-// Optional: Add confetti effect (simple version)
 function playConfetti() {
-    // Create simple confetti effect
     console.log('🎉 HELLO WORLD! 🎉');
-    
-    // You could add actual confetti here with a library
-    // For now, just log to console for fun
 }
 
-// Keyboard support
 document.addEventListener('keydown', function(event) {
     const key = event.key;
     
@@ -141,10 +123,4 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// Initialize display
 updateDisplay();
-
-// Easter egg: log a message
-console.log('🎮 Welcome to the Funny Calculator!');
-console.log('💡 Hint: Try calculating anything... the answer might surprise you!');
-console.log('🎉 Spoiler: The answer to everything is HELLO WORLD!');
