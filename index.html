@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Calculator - Hello World Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .calculator {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .display {
+            background: #2d3436;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: right;
+            font-size: 32px;
+            font-family: 'Courier New', monospace;
+            min-height: 60px;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .number {
+            background: #fff;
+            color: #2d3436;
+        }
+
+        .operator {
+            background: #667eea;
+            color: white;
+        }
+
+        .clear {
+            background: #ff6b6b;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equals {
+            background: #51cf66;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .zero {
+            grid-column: span 2;
+        }
+
+        .warning {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff3cd;
+            border-radius: 8px;
+            color: #856404;
+            font-size: 12px;
+            border: 1px solid #ffeaa7;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            16% { color: #ff7f00; }
+            33% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66% { color: #0000ff; }
+            83% { color: #8b00ff; }
+            100% { color: #ff0000; }
+        }
+
+        .rainbow-text {
+            animation: rainbow 2s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Funny Calculator</h1>
+        <p class="subtitle">The calculator that always knows the answer!</p>
+        
+        <div class="calculator">
+            <div class="display" id="display">0</div>
+            
+            <div class="buttons">
+                <button class="clear" onclick="clearDisplay()">AC</button>
+                <button class="operator" onclick="appendOperator('/')">/</button>
+                <button class="operator" onclick="appendOperator('*')">×</button>
+                
+                <button class="number" onclick="appendNumber('7')">7</button>
+                <button class="number" onclick="appendNumber('8')">8</button>
+                <button class="number" onclick="appendNumber('9')">9</button>
+                <button class="operator" onclick="appendOperator('-')">-</button>
+                
+                <button class="number" onclick="appendNumber('4')">4</button>
+                <button class="number" onclick="appendNumber('5')">5</button>
+                <button class="number" onclick="appendNumber('6')">6</button>
+                <button class="operator" onclick="appendOperator('+')">+</button>
+                
+                <button class="number" onclick="appendNumber('1')">1</button>
+                <button class="number" onclick="appendNumber('2')">2</button>
+                <button class="number" onclick="appendNumber('3')">3</button>
+                <button class="equals" onclick="calculate()" style="grid-row: span 2;">=</button>
+                
+                <button class="number zero" onclick="appendNumber('0')">0</button>
+                <button class="number" onclick="appendNumber('.')">.</button>
+            </div>
+        </div>
+        
+        <div class="warning">
+            ⚠️ Warning: This calculator may have unexpected behavior!
+        </div>
+        
+        <div class="footer">
+            Made with ❤️ for fun | Deploy on GitHub Pages
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+</body>
+</html>
